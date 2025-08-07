@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 
 
 def sql(query, dialect='mysql', driver='mysqlconnector', username='root', password='root', host='localhost',
-        port='3306', database='dmapps_0', disambiguate=False):
+        port='3306', database='dmapps_0', disambiguate=True):
     engine = create_engine(f'{dialect}+{driver}://{username}:{password}@{host}:{port}/{database}')
     with engine.connect() as conn:
         df = pd.read_sql(query, conn)
