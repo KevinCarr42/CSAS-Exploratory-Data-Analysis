@@ -3,4 +3,5 @@ __pycache__
 downloaded_documents
 TEMP.ipynb
 pandoc-3.7.0.2-windows-x86_64.msi
-sept_24_coordinators_meeting/
+sept_24_coordinators_meeting/data/
+sept_24_coordinators_meeting/meeting_files/
