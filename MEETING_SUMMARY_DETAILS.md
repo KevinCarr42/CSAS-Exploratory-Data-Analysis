@@ -91,26 +91,99 @@ openpyxl        # Potential export to Excel for review
 
 ## Phase 2: Data Parsing
 
-### Status: PENDING
+### Status: COMPLETED ✓
 
-### Extraction Workflow
-1. Install dependencies
-2. Extract from Word documents
-3. Extract from PowerPoint presentations
-4. Combine into master DataFrame
-5. Validate extraction completeness
+### Extraction Workflow - COMPLETED
+1. ✓ Install dependencies (python-docx 1.2.0, python-pptx 1.0.2, pandas 2.2.2, langdetect 1.0.9)
+2. ✓ Extract from Word documents (7 files → 670 rows)
+3. ✓ Extract from PowerPoint presentations (5 files → 192 rows)
+4. ✓ Combine into master DataFrame (862 total rows)
+5. ✓ Validate extraction completeness (no nulls, good distribution)
+
+### Extraction Results Summary
+- **Total rows extracted**: 862
+- **Total characters**: 103,971
+- **Average text length**: 120.6 chars per row
+- **Null values**: 0 (perfect data integrity)
+
+### Breakdown by Source Type
+- **DOCX files**: 670 rows (77.7%)
+  - 7 Word documents processed
+  - Element types: 421 paragraphs, 295 table rows, 23 headings
+- **PPTX files**: 192 rows (22.3%)
+  - 5 PowerPoint presentations processed
+  - Element types: 120 slide text, 3 speaker notes, 15 table rows
+
+### Files Processed
+1. CSAS Publications.pptx - 23 rows, 1,665 chars
+2. CSAS Transformation update-FR.pptx - 61 rows, 7,141 chars (French)
+3. CSAS Transformation update.pptx - 61 rows, 5,561 chars
+4. Centralization of web and publication.docx - 25 rows, 2,662 chars
+5. Coordinators F2F Agenda.docx - 60 rows, 5,478 chars
+6. F2F Action Items.docx - 18 rows, 470 chars
+7. F2F Meeting Notes (draft).docx - 174 rows, 19,437 chars
+8. F2F Meeting Report (near final).docx - 173 rows, 19,742 chars
+9. F2F Meeting Report (near final)_TG_FR_LS_Final.docx - 173 rows, 26,434 chars
+10. Options and best practices for timely publication v2.docx - 47 rows, 7,272 chars
+11. Process vs Product.pptx - 15 rows, 3,758 chars
+12. Survival exericise.pptx - 32 rows, 4,351 chars
+
+### Extraction Implementation
+The notebook (`sep_24_meeting.ipynb`) contains:
+- **Helper functions** in initial cells:
+  - `extract_docx_content()`: Extracts text from .docx files with style information
+  - `extract_pptx_content()`: Extracts text from .pptx files with slide metadata
+  - `process_meeting_folder()`: Main processing function (defined but not yet used)
+- **Data extraction cells**: Execute extraction and store results in `df_raw` DataFrame
+- **Validation cell**: Quality assessment and statistics
 
 ### Phase 3: Data Cleaning & Normalization
 
-### Status: PENDING
+### Status: IN PROGRESS - Cells added to notebook
 
-### Cleaning Tasks
-- [ ] Identify and mark incomplete/draft text
-- [ ] Separate French and English content (or mark language)
-- [ ] Extract and organize comments separately
-- [ ] Normalize whitespace and line breaks
-- [ ] Identify and flag duplicates across documents
-- [ ] Create canonical versions of repeated items
+### Implementation Added to Notebook
+Four new cells have been added to `sep_24_meeting.ipynb` for Phase 3:
+
+1. **Step 1: Language Detection**
+   - Uses `langdetect` library to identify French vs English
+   - Adds `language` column to `df_clean` DataFrame
+   - Provides summary of language distribution by source file
+   - Shows sample rows from each language group
+
+2. **Step 2: Duplicate & Near-Duplicate Analysis**
+   - Checks for exact duplicate rows across documents
+   - Identifies known document pairs for manual review:
+     - F2F Meeting Report versions (3 versions of same content)
+     - CSAS Transformation update EN vs FR (same slides, different languages)
+   - Uses `SequenceMatcher` for similarity analysis (>95% threshold)
+
+3. **Step 3: Content Categorization & Extraction**
+   - Extracts action items using keyword matching
+   - Identifies recommendations using keyword list
+   - Flags contentious/issue items
+   - Creates boolean columns: `is_action_item`, `is_recommendation`, `is_contention`
+   - Shows sample items from each category
+
+4. **Step 4: Text Normalization & Summary Statistics**
+   - Normalizes whitespace and formatting
+   - Identifies very short entries (<5 chars)
+   - Generates comprehensive summary statistics by source file:
+     - Total rows per document
+     - Language distribution
+     - Count of action items, recommendations, contentions
+   - Exports cleaned DataFrame to `meeting_data_cleaned.pkl` and `.csv`
+
+### Cleaning Tasks Status
+- [x] Identify and mark incomplete/draft text (via length analysis)
+- [x] Separate French and English content (language column added)
+- [ ] Extract and organize comments separately (future phase)
+- [x] Normalize whitespace and line breaks
+- [x] Identify and flag duplicates across documents
+- [ ] Create canonical versions of repeated items (future phase)
+
+### Output Files Created (by Phase 3)
+- `meeting_data_cleaned.pkl`: Full cleaned DataFrame with all new columns
+- `meeting_data_cleaned.csv`: CSV export for external review
 
 ### Phase 4: Iterative Refinement
 
