@@ -305,6 +305,54 @@ Four cells added to `sep_24_meeting.ipynb`:
 
 ---
 
+## Phase 6: Final Summarization
+
+### Status: COMPLETED ✓
+
+### Implementation - Phase 6 Cells Added
+Three cells added to `sep_24_meeting.ipynb`:
+
+1. **Step 1: Load Primary Dataset and Extract Key Points**
+   - Loads meeting_data_primary.pkl from data directory
+   - Extracts action items, recommendations, and contentions
+   - Filters by strength threshold (>=2) for quality
+   - Groups findings by source file
+   - Displays top items with categories for quick review
+
+2. **Step 2: Create Structured Summaries by Topic/Theme**
+   - Defines 5 key themes: Publications, Transformation, Web/Centralization, Process/Best Practices, Survival/Exercise
+   - Detects themes for each row using keyword matching
+   - Generates theme distribution analysis
+   - Creates categorized summaries:
+     - Action items by theme
+     - Recommendations by theme
+     - Issues by theme
+   - Shows coverage and top items per theme
+
+3. **Step 3: Export Structured Summary Reports**
+   - Exports 4 JSON reports with strength scoring and categorization
+   - Creates enhanced dataframe with theme detection
+   - Saves summary pickle file for downstream use
+
+### Summary Outputs Generated
+
+**JSON Reports** (all saved to `{meeting_folder}/data/`):
+- `phase6_action_items.json` - Action items ranked by strength (high/medium/low)
+- `phase6_recommendations.json` - Recommendations ranked by strength
+- `phase6_contentions_issues.json` - Issues/contentions ranked by strength
+- `phase6_theme_analysis.json` - Theme definitions and distribution
+
+**Pickle Files**:
+- `meeting_data_summary.pkl` - Enhanced dataframe with theme tags and all categorization
+
+### Content Extracted
+- **Action Items**: Identified by strength threshold
+- **Recommendations**: Categorized by type (recommendation, best_practice, suggestion, process)
+- **Contentions/Issues**: Identified concerns, conflicts, unclear items
+- **Themes**: Publications (majority), Transformation, Web/Centralization, Process, Survival
+
+---
+
 ## Key Metrics & Success Criteria
 
 - **Extraction Completeness**: >95% of readable text extracted
